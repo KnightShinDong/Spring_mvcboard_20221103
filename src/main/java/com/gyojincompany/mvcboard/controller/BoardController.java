@@ -2,6 +2,8 @@ package com.gyojincompany.mvcboard.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,18 +16,30 @@ import com.gyojincompany.mvcboard.command.BListCommand;
 import com.gyojincompany.mvcboard.command.BModifyCommand;
 import com.gyojincompany.mvcboard.command.BReplyCommand;
 import com.gyojincompany.mvcboard.command.BWriteCommand;
+import com.gyojincompany.mvcboard.util.Constant;
 
 @Controller
 public class BoardController {
 	
 	BCommand command = null; //상속특성을 사용하여 메서드 밖에서 선을을 하고 command초기화 
 	
+	JdbcTemplate template;
+	
+	@Autowired
+	
+	public void setTemplate(JdbcTemplate template) {
+		this.template = template;
+		Constant.template = this.template;
+	}
+
 	@RequestMapping(value = "/")
 	public String goList() {
 		return "redirect:list";  // 바로밑의 리스트를 다시 부르기(리다이렉트  list는 컨트롤러의 list  말함)
 	}
 	
 	
+	
+
 	@RequestMapping(value = "list")  //리스트 jsp 부르기~
 	public String list (Model model) {
 	
